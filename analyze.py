@@ -46,7 +46,7 @@ def spearman(a, b):
     ma, mb = statistics.mean(ra), statistics.mean(rb)
     cov = sum((x - ma) * (y - mb) for x, y in zip(ra, rb))
     var = (sum((x - ma) ** 2 for x in ra) * sum((y - mb) ** 2 for y in rb)) ** 0.5
-    return cov / var
+    return cov / var if var else float("nan")
 
 
 issues = list(csv.DictReader(open(ROOT / "data" / "issues.csv", encoding="utf-8")))
