@@ -22,7 +22,7 @@ for sp in LEVELS:
 
 rng.shuffle(picked)
 with open(dst, "w", newline="", encoding="utf-8") as f:
-    w = csv.writer(f)
+    w = csv.writer(f, lineterminator="\n")
     w.writerow(["n", "issuekey", "title", "description", "storypoint"])
     for i, r in enumerate(picked, 1):
         desc = " ".join(r["description"].split())
