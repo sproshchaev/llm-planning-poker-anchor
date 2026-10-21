@@ -12,8 +12,8 @@ jobs:
 
       - name: Rebuild data/issues.csv from the public dataset
         run: |
-          curl -sSL -o /tmp/springxd.csv \
-            "https://raw.githubusercontent.com/morakotch/datasets/master/storypoint/IEEE%20TSE2018/dataset/springxd.csv"
+          curl -fsSL -o /tmp/springxd.csv \
+            "https://raw.githubusercontent.com/morakotch/datasets/133a5f59e7699a5612cbbc036b8d111844ad12cd/storypoint/IEEE%20TSE2018/dataset/springxd.csv"
           python3 scripts/select_issues.py /tmp/springxd.csv /tmp/issues.csv
           cmp data/issues.csv /tmp/issues.csv
           echo "OK: data/issues.csv is reproducible byte for byte"

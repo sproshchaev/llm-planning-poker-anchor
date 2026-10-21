@@ -6,17 +6,24 @@ from pathlib import Path
 
 ROOT = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).parent
 RUN_DIR = ROOT / "runs"
-MODELS = sorted({f.name.split("_")[0] for f in RUN_DIR.glob("*_*.txt")}, reverse=True)
+MODELS = sorted({f.name.split("_")[0] for f in RUN_DIR.glob("*_[AB][123].txt")}, reverse=True)
 PROMPTS = ["A", "B"]
 RUNS = [1, 2, 3]
 ANCHOR = 32
+SCALE = {1, 2, 3, 5, 8, 13, 21}
+
+if len(MODELS) != 2:
+    sys.exit(f"expected runs of exactly two models in {RUN_DIR}, found: {MODELS}")
 
 
 def load_run(path):
+    lines = path.read_text(encoding="utf-8").splitlines()
     est = {}
-    for line in path.read_text(encoding="utf-8").splitlines():
+    for line in lines:
         n, sp = line.split(":")
         est[int(n)] = int(sp)
+    if len(lines) != 12 or sorted(est) != list(range(1, 13)) or not set(est.values()) <= SCALE:
+        sys.exit(f"{path}: expected 12 lines 'number: estimate' on the scale {sorted(SCALE)}")
     return [est[i] for i in range(1, 13)]
 
 

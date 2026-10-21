@@ -53,11 +53,11 @@ Spearman between the two models on prompt A: 0.87.
 - The anchor moved the total by about a fifth for both models, but not down to 32: the lowest run gave 44.
 - Small tasks barely moved, large ones were cut.
 - With the anchor the estimates became less stable between identical runs.
-- The total can get closer to the team while per-task error grows (ChatGPT), or both can improve (Claude). The anchor shifts the estimate, it does not make it reliably worse or better.
+- The total and the per-task error can move in opposite directions. ChatGPT's total got closer to the team (76.7 to 60.3 against 64) while its per-task error grew. Claude's total moved away from the team (66.7 to 54.0) while its per-task error fell. The anchor shifts the estimate, it does not make it reliably worse or better.
 
 ## Limits
 
-12 tasks, one project, two models, three runs per prompt. The dataset has been public since 2016 and could be part of the models' training data. Story points are team-specific, so "error" here means disagreement with the Spring XD team, not with an objective truth. The free ChatGPT model can change at any time. This is a check of one working practice, not a model benchmark.
+12 tasks, one project, two models, three runs per prompt. `analyze.py` is written for exactly this setup: two models, 12 tasks, three runs per prompt, and it stops if an answer is not 12 lines on the scale. The dataset has been public since 2016 and could be part of the models' training data. Story points are team-specific, so "error" here means disagreement with the Spring XD team, not with an objective truth. The free ChatGPT model can change at any time. This is a check of one working practice, not a model benchmark.
 
 ## Structure
 
@@ -73,7 +73,7 @@ scripts/select_issues.py selects data/issues.csv from the public dataset (seed 1
 scripts/make_prompts.py  builds both prompts from data/issues.csv
 ```
 
-To rebuild `data/issues.csv` yourself, download `springxd.csv` from the dataset repository and run `python3 scripts/select_issues.py springxd.csv data/issues.csv`. CI does exactly this on every push.
+To rebuild `data/issues.csv` yourself, download `springxd.csv` from the dataset repository (CI pins commit `133a5f5`) and run `python3 scripts/select_issues.py springxd.csv data/issues.csv`. CI does exactly this on every push.
 
 ## Sources
 
@@ -83,4 +83,4 @@ To rebuild `data/issues.csv` yourself, download `springxd.csv` from the dataset 
 
 ## License
 
-MIT, see [LICENSE](LICENSE). The issue texts in `data/` and `prompts/` come from the public Spring XD Jira via the dataset above.
+The code is MIT, see [LICENSE](LICENSE). The license does not cover the issue texts in `data/` and `prompts/`: they come from the public Spring XD Jira via the dataset above and keep the terms of their source.
