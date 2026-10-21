@@ -1,0 +1,38 @@
+Team sum: 64 SP, anchor in prompt B: 32 SP
+
+1. Sums per run
+   gpt    A: [75, 75, 80]  mean 76.7
+   gpt    B: [62, 52, 67]  mean 60.3
+   claude A: [65, 68, 67]  mean 66.7
+   claude B: [59, 59, 44]  mean 54.0
+
+2. Anchor shift (mean sum B vs A)
+   gpt   : 76.7 -> 60.3 SP (-21%)
+   claude: 66.7 -> 54.0 SP (-19%)
+
+3. Run-to-run stability (same model, same prompt)
+   gpt    A: tasks with different estimates 3 of 12 [4, 9, 11]
+   gpt    B: tasks with different estimates 7 of 12 [1, 2, 4, 6, 8, 9, 10]
+   claude A: tasks with different estimates 2 of 12 [2, 10]
+   claude B: tasks with different estimates 4 of 12 [3, 5, 6, 11]
+
+4. Agreement with the team (median of 3 runs)
+   gpt    A: MAE 2.92 SP, exact 4 of 12, Spearman 0.67
+   gpt    B: MAE 3.25 SP, exact 4 of 12, Spearman 0.73
+   claude A: MAE 1.75 SP, exact 6 of 12, Spearman 0.82
+   claude B: MAE 1.42 SP, exact 7 of 12, Spearman 0.90
+   gpt vs claude (A): Spearman 0.87
+
+5. Per task: team | gpt A runs | gpt B runs | claude A runs | claude B runs
+    1 XD-2067  3 | 3,3,3 | 3,2,3 | 3,3,3 | 3,3,3  Upgrade asciidoctor toolchain
+    2 XD-2092  2 | 5,5,5 | 3,3,5 | 3,5,5 | 3,3,3  Enhance Container domain object
+    3 XD-872   8 | 8,8,8 | 5,5,5 | 8,8,8 | 8,8,5  Make in-memory meta data stores persistent
+    4 XD-1220  5 | 3,3,5 | 2,2,3 | 5,5,5 | 3,3,3  Batch jobs should use application.yml provide
+    5 XD-2068  13 | 13,13,13 | 8,8,8 | 13,13,13 | 13,13,8  Add support for specifying an undeploy-condit
+    6 XD-2206  8 | 21,21,21 | 21,13,21 | 13,13,13 | 13,13,8  Add R processor
+    7 XD-1066  5 | 8,8,8 | 8,8,8 | 8,8,8 | 5,5,5  Topic channels are not broadcasting
+    8 XD-2732  2 | 3,3,3 | 3,2,2 | 2,2,2 | 2,2,2  Move $XD_HOME/modules/processor/scripts out o
+    9 XD-1525  1 | 2,2,3 | 2,2,3 | 2,2,2 | 1,1,1  Need better error handling for module info sh
+   10 XD-2107  3 | 5,5,5 | 3,3,5 | 2,3,2 | 2,2,2  Allow aggregate-counter to increment by some 
+   11 XD-2108  13 | 3,3,5 | 3,3,3 | 5,5,5 | 5,5,3  Show Stream / Tap relationship in Admin UI
+   12 XD-1406  1 | 1,1,1 | 1,1,1 | 1,1,1 | 1,1,1  Upgrade groovy version to 2.2.2

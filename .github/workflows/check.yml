@@ -1,0 +1,22 @@
+name: check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Rebuild data/issues.csv from the public dataset
+        run: |
+          curl -sSL -o /tmp/springxd.csv \
+            "https://raw.githubusercontent.com/morakotch/datasets/master/storypoint/IEEE%20TSE2018/dataset/springxd.csv"
+          python3 scripts/select_issues.py /tmp/springxd.csv /tmp/issues.csv
+          cmp data/issues.csv /tmp/issues.csv
+          echo "OK: data/issues.csv is reproducible byte for byte"
+
+      - name: Recompute results and compare with expected.txt
+        run: ./run.sh

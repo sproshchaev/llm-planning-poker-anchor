@@ -1,0 +1,27 @@
+Ты участвуешь в покер-планировании команды, которая разрабатывает Spring XD (платформа на Java для потоковой и пакетной обработки данных). Оцени каждую задачу из бэклога в story points по шкале 1, 2, 3, 5, 8, 13, 21. Тимлид заранее прикинул, что весь набор потянет примерно на 32 story points.
+
+Ответ: ровно 12 строк вида «номер: оценка», без пояснений.
+
+1. Upgrade asciidoctor toolchain. This will in turn allow us to get rid of the custom logic for handling crossref links between documents
+
+2. Enhance Container domain object. Currently, org.springframework.xd.dirt.cluster.Container has name and attributes (container attributes). This can be enhanced to include all the deployed modules, number of deployed modules and any more useful info. and can subsequently be used to get a detailed runtime container info.
+
+3. Make in-memory meta data stores persistent. Just wanted to create story for this - so we can consider whether this should be addressed. In at least 2 modules we use non-persisted states. We may want to consider making them persistent: *Twitter Search* uses an in-memory *MetadataStore* that keeps track of the twitter ids. There exists a corresponding issue for Spring Integration: "Create a Redis-backed MetadataStore" See: https://jira.springsource.org/browse/INT-3085 *File Soure*'s File Inbound Channel Adapter uses a AcceptOnceFileListFilter, which uses an in-memory Queue to keep track of duplicate files.
+
+4. Batch jobs should use application.yml provided connection as default. Batch jobs should use application.yml provided connection as default. They now have their own configuration in batch-jdbc.properties. This config needs to account for any changes made to application.yml settings so the data is written to the batch metadata database by default.
+
+5. Add support for specifying an undeploy-condition for stream definitions. In some scenarios like when performing exploratory data-analysis on streaming data one often create a stream, keep it running for some time (or until some condition is met) and then stop the stream and start to investigate the collected data. It would be cool to be able to specify some undeploy condition, like e.g. a timeout after x minutes, no. of events collected, a specific counter past a given threshold, file-size greater then x etc.
+
+6. Add R processor. As a user, I'd like to have a _R_ processor, so I can efficiently perform data computations and statistical analysis in the context of streaming pipeline. Investigate the right approach that fits Spring XD model. *R Java Libraries* [rJava|http://rforge.net/rJava/] [Renjin|http://www.renjin.org/]
+
+7. Topic channels are not broadcasting. This needs to work for all transports (local, rabbit, and redis), and we need to ensure that we have test coverage for each of those to avoid any regressions. The incorrect behavior was observed with all three transports: {code} xd:>stream create a --definition "topic:foo > transform --expression=payload+'-a' | log" Created new stream 'a' xd:>stream create b --definition "topic:foo > transform --expression=payload+'-b' | log" Created new stream 'b' xd:>stream create s --definition "http > topic:foo" Created new stream 's' xd:>http post --data hi > POST (text/plain;Charset=UTF-8) http://localhost:9000 hi > 200 OK // only one line in log! {code}
+
+8. Move $XD_HOME/modules/processor/scripts out of the way. Since the refactoring of the module registry that does not "look inside" a module, it can't know that the scripts directory is not a module. Everything that is a direct child of source, processor, sink, job should be a module archive. Everything else supporting that should be moved out, e.g. in modules/common
+
+9. Need better error handling for module info shell command. Would be better to provide a more useful message, e.g. "The module name must be of the form <module-type>:<module-name>" xd:>module info --name time java.lang.StringIndexOutOfBoundsException: Failed to convert 'time' to type QualifiedModuleName for option 'name,' String index out of range: -1 xd:>module info --name sink/time java.lang.StringIndexOutOfBoundsException: Failed to convert 'sink/time' to type QualifiedModuleName for option 'name,' String index out of range: -1 xd:>module info --name sink:time Command failed org.springframework.xd.rest.client.impl.SpringXDException: NullPointerException xd:>module info --name source:time Information about source module 'time':
+
+10. Allow aggregate-counter to increment by some value of the message. Currently, the aggregate counter only adds +1 to the individual values, even though support is there to add any increment. This ticket is about surfacing a SpEL expression on the message to choose the increment
+
+11. Show Stream / Tap relationship in Admin UI. It would be nice if the admin ui would sort the streams in such a way that the taps that are created for a particular stream are somehow placed UNDER the tapped stream... {code} Stream A ... +-Tap A.foo ... +-Tap A.bar ... {code} Same goes for the list command in the XD-Shell
+
+12. Upgrade groovy version to 2.2.2. Currently, XD hast "testCompile" dependency to use org.codehaus.groovy:groovy-all:2.2.1. The spring-integration-groovy uses "2.2.2" and it is what spring IO platform uses as well. To keep it all same, we can change this "testCompile" dependency to use "2.2.2"
