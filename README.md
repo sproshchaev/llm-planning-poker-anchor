@@ -3,6 +3,14 @@
 [![check](https://github.com/sproshchaev/llm-planning-poker-anchor/actions/workflows/check.yml/badge.svg)](https://github.com/sproshchaev/llm-planning-poker-anchor/actions/workflows/check.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
+**Сергей Прощаев**
+
+[![Website](https://img.shields.io/badge/prosoft.pages.dev-blue?logo=googlechrome&logoColor=white)](https://prosoft.pages.dev)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-sproshchaev-0A66C2)](https://www.linkedin.com/in/sproshchaev/)
+[![Habr](https://img.shields.io/badge/Habr-sproshchaev-65A3BE?logo=habr&logoColor=white)](https://habr.com/ru/users/sproshchaev/)
+
+---
+
 12 tasks from a public Jira dataset, two LLMs, three runs each, with and without an anchor: how stable are story point estimates.
 
 Article (in Russian): https://habr.com/ru/companies/otus/articles/1088898/
